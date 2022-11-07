@@ -129,7 +129,7 @@ int search(node* root, int ele){
 		return 0;
 	}
 	else{
-		if(root->data = ele){
+		if(root->data == ele){
 			return 1;
 		}
 		else if(ele > root->data){

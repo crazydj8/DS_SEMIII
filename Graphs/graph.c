@@ -61,7 +61,20 @@ void dfs(int adjmat[][MAXSIZE], int *visited, int n, int source){
 }
 
 void bfs(int adjmat[][MAXSIZE], int *visited, int n, int source){
-    
+    int q[20], f = 0, r = -1;
+    visited[source] = 1;
+    printf("%d\t", source);
+    q[++r] = source;
+    while(f <= r){
+        source = q[f++];
+        for(int i = 1; i <= n; i++){
+            if(adjmat[source][i] == 1 && visited[i] == 0){
+                q[++r] = i;
+                visited[i] = 1;
+                printf("%d\t", i);
+            }
+        }
+    }
 }
 
 int main(){
@@ -99,6 +112,12 @@ int main(){
                 inits(visited, n);
                 printf("Traversal:\n");
                 bfs(adjmat, visited, n, s);
+                for(int i = 1; i <= n; i++){
+                    if(visited[i] == 0){
+                        bfs(adjmat, visited, n, i);
+                    }
+                }
+                printf("\n");
                 break;
         }
     }while(ch != 5);
