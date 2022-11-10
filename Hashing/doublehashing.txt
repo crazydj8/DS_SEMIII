@@ -1,0 +1,9 @@
+prime = 7
+tabsize = 13
+
+values = 19, 27, 36, 10
+
+for 19: hash1 = 6  
+for 27: hash1 = 1  
+for 36: hash1 = 10 
+for 10: hash1 = 10 hash2 = prime - key 5 prime = 4 hash = ((hash1 + i * hash2) % tabsize)(keep inrememnting i till you find empty spot) =  
