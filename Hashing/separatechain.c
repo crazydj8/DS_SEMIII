@@ -35,6 +35,7 @@ void insert(hash_table *ht, int part_id, int qty){
 void display(hash_table *ht){
     parts *temp = NULL;
     for(int i = 0; i < SIZE; i++){
+        printf("%d:::::", i);
         temp = ht[i].head;
         while(temp != NULL){
             printf("%d \t", temp->part_id);
@@ -49,7 +50,7 @@ int main(){
     hash_table ht[SIZE];
     init(ht);
     do{
-        printf("Enter choice(0-3):");
+        printf("1. Insert 2. Display 3. Exit Enter choice(1-3):");
         scanf("%d", &ch);
         switch(ch){
             case 1:
