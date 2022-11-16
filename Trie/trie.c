@@ -4,7 +4,7 @@
 #define LETTERS 26
 #define WORDLEN 10
 
-int len, len_1;
+int len, len_1, count_del, found_del;
 char saveword[WORDLEN];
 
 typedef struct node{
@@ -46,6 +46,9 @@ trienode *insert(trienode *root, char word[]){
 }
 
 void display_1(trienode *root, char prefix[]){
+    if(root == NULL){
+        printf("Empty trie.\n");
+    }
     for(int i = 0; i < LETTERS; i++){
         if(root->branch[i] != NULL){
             saveword[len_1++] = i + 'a'; 
@@ -90,7 +93,7 @@ void search_prefix(trienode *root, char word[]){
 }
 
 int is_empty(trienode *temp){
-    for(int i = 0; i < WORDLEN; i++){
+    for(int i = 0; i < LETTERS; i++){
         if(temp->branch[i] != NULL){
             return 0;
         }
@@ -98,7 +101,31 @@ int is_empty(trienode *temp){
     return 1;
 }
 
-void display(trienode *root){
+trienode *delete_node(trienode *root, char word[], int size){
+    if(root == NULL){
+        return NULL;
+    }
+    if(count_del == size){
+        if(root->is_word == 1){
+            found_del = 1;
+            root->is_word = 0;
+            if(is_empty(root)){
+                free(root);
+                root = NULL;
+            }
+            return root;    
+        }
+    }
+    int index = word[count_del++] - 'a';
+    root->branch[index] = delete_node(root->branch[index], word, size);
+    if(is_empty(root) && root->is_word == 0){
+        free(root);
+        root = NULL;
+    }
+    return root;
+}
+
+/*void display(trienode *root){
     if(root == NULL){
         printf("Empty trie.\n");
     }
@@ -115,14 +142,14 @@ void display(trienode *root){
         }
     }
     len--;
-}
+}*/
 
 int main(){
-    int ch;
+    int ch, i;
     char word[WORDLEN];
     trienode *dictionary = NULL;
     do{
-        printf("Options: 1. Insert 2. Display 3. Search Prefix 4. Exit\nEnter Choice:");
+        printf("Options: 1. Insert 2. Delete 3. Display 4. Search Prefix 5. Exit\nEnter Choice:");
         scanf("%d", &ch);
         switch(ch){
             case 1:
@@ -131,16 +158,33 @@ int main(){
                 dictionary = insert(dictionary, word);
                 break;
             case 2:
-                len = 0;
-                display(dictionary);
+                found_del = 0;
+                count_del = 0;
+                i = 0;
+                printf("Enter the word to delete:");
+                scanf("%s", word);
+                while(word[i] != '\0'){
+                    i++;
+                }
+                dictionary = delete_node(dictionary, word, i);
+                if(found_del == 0){
+                    printf("Not found.\n");
+                }
+                else{
+                    printf("Found and Deleted.\n");
+                }
                 break;
             case 3:
+                len_1 = 0;
+                display_1(dictionary, "\0");
+                break;
+            case 4:
                 len_1 = 0;
                 printf("Enter the prefix you want to search:");
                 scanf("%s", word);
                 search_prefix(dictionary, word);
                 break;
         }
-    }while(ch != 4);
+    }while(ch != 5);
     return 0;
 }

@@ -51,6 +51,7 @@ int main(){
 	create_cirlist(&tail, n);
 	printf("Enter Number pulled from chit:");
 	scanf("%d", &m);
-	survivor(&tail, m);
+	int lived = survivor(&tail, m);
+	printf("Soldier that survived = %d\n", lived);
 	return 0;
 }
