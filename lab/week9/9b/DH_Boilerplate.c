@@ -4,7 +4,7 @@
 
 void insertIntoHash(int key, int *hashtable)
 {
-    int prime = 7;
+    int prime = 11;
     int ind = key % SIZE;
     int full = 1;
     for(int i = 0; i < SIZE; i++){
